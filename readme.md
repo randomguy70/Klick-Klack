@@ -55,6 +55,8 @@ Run the interface with:
 python app.py
 ```
 This allows users to type sample articles. Their keystrokes will be logged and saved to `Raw_Data/`.  
+If you want to import data from other places, you'll have to modify it into a csv format with these columns: participant, session, key, keydown_time, keyup_time, hold_time
+*the session column doesn't really do anything, just populate it with 1's.
 *Tip: The more data you collect per user, the more accurate the model will be.*
 
 ### 2. Train the Model
@@ -80,17 +82,17 @@ You're not forgotten — but you may need to tweak a few commands (e.g., paths a
 
 ---
 
-## 🧪 Inspiration
+## Inspiration
 
 This project drew inspiration from [this article on keystroke biometrics](https://www.sciencedirect.com/science/article/pii/S2352340923006091?via%3Dihub).
 
 ---
 
-## 📬 Contributing
+## Contributing
 
 If you encounter bugs, have questions, or just want to geek out about typing biometrics — **please reach out** or open an issue. I'd love to hear from you.
 
 ---
 
-## 🎉 Enjoy!
+## Enjoy!
 (Yes, this is an essential step.)
