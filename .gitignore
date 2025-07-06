@@ -1,0 +1,8 @@
+Raw_Data/
+Test_Data/
+Extracted_Data/
+__pycache__/
+logged_data/
+logs/
+models/
+Random Data/

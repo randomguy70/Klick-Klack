@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Keystroke Logger</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    textarea { width: 100%; height: 150px; font-size: 16px; }
+    input, button { padding: 10px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Typing Pattern Recorder</h2>
+  <label>Participant ID: <input type="text" id="participant" placeholder="e.g. P001" /></label><br>
+  <label>Session: <input type="number" id="session" value="1" /></label><br>
+  <p>
+    His intervention was a solemn rejection of a dominant economic tenet of the day, “that labour is a commodity to be bought at market prices determined by the law of supply and demand rather than by the human needs of the worker.”79 Leo’s was a stinging protest against the economic status quo, and its effect over time was to move social issues to the center of the Church’s mission, “driving home the idea that Catholics must have a social conscience,” and to encourage those already so committed.80
+    <br>Workers’ Rights and Duties. Working from a framework of natural law, Pope Leo built upon the foundational concept of human dignity and the related belief that work is not just a commodity. From these he developed specific worker rights: freedom to receive and spend wages as they see fit [5]; integrity of family life, including providing necessities to children [13]; wages sufficient to support a worker who is “frugal and well-behaved” and, by implication, his or her family [45]. This concept of a family wage will be clarified and grow across the 130-year tradition, but it is rooted here in Pope Leo’s writing.
+    <br>Leo upheld rights to reasonable hours, rest periods, health safeguards, safe working conditions, and special provisions for women and children, including minimum age requirements [42]; freedom to attend to religious obligations [20]; no work on Sundays or holy days [41]; and the right to form workers’ associations [49-52]. These rights will be developed further by succeeding teachers of the tradition. Workers also were to work well and conscientiously, not injure the property or person of employers, refrain from violence or rioting, and be thrifty and prudent [20 and 46].
+  </p>
+
+  <textarea id="typingArea" placeholder="Start typing here..."></textarea><br>
+  <button onclick="downloadCSV()">Download Typing Data</button>
+
+  <script>
+    const typingArea = document.getElementById("typingArea");
+    const keyDownTimestamps = {};
+    const keystrokes = [];
+    let shiftPressed = false;
+
+    typingArea.addEventListener("keydown", (e) => {
+      const code = e.code;
+      const key = e.key;
+      const time = performance.now();
+
+      if (key === "Shift") {
+        shiftPressed = true;
+      }
+
+      // Only record first keydown timestamp
+      if (!keyDownTimestamps[code]) {
+        keyDownTimestamps[code] = time;
+      }
+    });
+
+    typingArea.addEventListener("keyup", (e) => {
+      const code = e.code;
+      const key = e.key;
+      const upTime = performance.now();
+      const downTime = keyDownTimestamps[code];
+
+      if (key === "Shift") {
+        shiftPressed = false;
+      }
+
+      if (downTime !== undefined) {
+        let char = key;
+
+        // Try to infer uppercase (rudimentary)
+        if (shiftPressed && key.length === 1) {
+          char = key.toUpperCase();
+        }
+
+        keystrokes.push({
+          key: char,
+          downTime: downTime.toFixed(3),
+          upTime: upTime.toFixed(3),
+          holdTime: (upTime - downTime).toFixed(3)
+        });
+
+        delete keyDownTimestamps[code];
+      }
+    });
+
+    function sanitizeKey(key) {
+      // Quote and escape if it contains comma or quote
+      return key.includes(',') || key.includes('"')
+        ? `"${key.replace(/"/g, '""')}"`
+        : key;
+    }
+
+    function downloadCSV() {
+      const participant = document.getElementById("participant").value || "unknown";
+      const session = document.getElementById("session").value || "1";
+
+      const rows = [["participant", "session", "key", "keydown_time", "keyup_time", "hold_time"]];
+      keystrokes.forEach(entry => {
+        rows.push([
+          participant,
+          session,
+          sanitizeKey(entry.key),
+          entry.downTime,
+          entry.upTime,
+          entry.holdTime
+        ]);
+      });
+
+      const csvContent = "data:text/csv;charset=utf-8," + rows.map(r => r.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `${participant}_session${session}_keystrokes.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
