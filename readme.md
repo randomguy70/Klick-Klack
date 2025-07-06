@@ -78,7 +78,7 @@ Predictions will be printed to the console.
 ---
 
 ## 😔 Windows Users
-You're not forgotten — but you may need to tweak a few commands (e.g., paths and terminal syntax). If you get stuck, feel free to reach out.
+You're not forgotten — but you may need to tweak a few commands (e.g., paths and terminal syntax). If you get stuck, feel free to reach out to me at valley.goals7714@eagereverest.com.
 
 ---
 
@@ -90,7 +90,7 @@ This project drew inspiration from [this article on keystroke biometrics](https:
 
 ## Contributing
 
-If you encounter bugs, have questions, or just want to geek out about typing biometrics — **please reach out** or open an issue. I'd love to hear from you.
+If you encounter bugs, have questions, or just want to geek out about typing biometrics — **please reach out** to me at valley.goals7714@eagereverest.com or open an issue. I'd love to hear from you.
 
 ---
 
