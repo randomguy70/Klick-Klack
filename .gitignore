@@ -6,3 +6,4 @@ logged_data/
 logs/
 models/
 Random Data/
+*/.DS_Store
